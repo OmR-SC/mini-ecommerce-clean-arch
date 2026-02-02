@@ -18,7 +18,7 @@ public class Order : BaseEntity
     public DateTime OrderDate { get; private set; } = DateTime.UtcNow;
     public OrderStatus Status { get; private set; }
 
-    public decimal TotalPrice => _orderItems.Sum(i => i.UnitPrice * i.Quantity);
+    public decimal TotalAmount => _orderItems.Sum(i => i.UnitPrice * i.Quantity);
 
     private readonly List<OrderItem> _orderItems = new List<OrderItem>();
     public virtual IReadOnlyCollection<OrderItem> OrderItems => _orderItems.AsReadOnly();
