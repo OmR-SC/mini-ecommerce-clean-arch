@@ -2,6 +2,8 @@ using Infrastructure.Persistance;
 using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Application.Interfaces;
+using Domain.Interfaces;
+using Infrastructure.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,7 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<ApplicationDbContext>(builder => builder.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 
