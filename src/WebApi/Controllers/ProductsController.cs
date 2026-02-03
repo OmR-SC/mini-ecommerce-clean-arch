@@ -14,13 +14,36 @@ public class ProductsController : ControllerBase
         _productService = productService;
     }
 
+    // GET: api/products
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetAll()
+    {
+        var products = await _productService.GetAllAsync();
+
+        return Ok(products);
+    }
+
+    // GET: api/products/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ProductDto>> GetById(int id)
+    {
+        var product = await _productService.GetByIdAsync(id);
+
+        if (product == null)
+        {
+            return NotFound(new { message = $"Product with ID {id} not found" });
+        }
+
+        return Ok(product);
+    }
+
+    // POST: api/products
     [HttpPost]
     public async Task<ActionResult> Create(CreateProductDto productDto)
     {
 
         try
         {
-            Console.WriteLine(productDto.CategoryId);
             var productId = await _productService.CreateAsync(productDto);
 
             return CreatedAtAction(nameof(Create), new { id = productId }, new { id = productId });
@@ -33,5 +56,7 @@ public class ProductsController : ControllerBase
 
 
     }
+
+
 
 }
